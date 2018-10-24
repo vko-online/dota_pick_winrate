@@ -2,7 +2,6 @@ const brain = require("brain.js");
 const net = new brain.NeuralNetwork();
 const dataJson = require('./matches.json')
 
-const nsort = (a, b) => a - b
 function calc(title, vals) {
   const train_list = dataJson.map(data => {
     const radiant_win = data.radiant_win ? 1 : 0
@@ -28,7 +27,7 @@ function calc(title, vals) {
       }
     };
   });
-  const inters = 1000
+  const inters = 20000
   net.train(train_list, {
     errorThresh: 0.005,  // error threshold to reach
     iterations: inters,   // maximum training iterations
@@ -51,7 +50,7 @@ function calc(title, vals) {
       d5: dval[4],
       du: val.duration / 10000
     });
-    console.log(title + ` game ${index + 1} winrate ${(output.radiant_win * 100).toFixed(2)}%`);
+    console.log(title + ` game ${index + 1}, OG win ${(output.radiant_win * 100).toFixed(2)}%`);
   })
   console.log(`Used ${dataJson.length} matches with all heroes, ${inters} iterations with selected heroes`)
 }
